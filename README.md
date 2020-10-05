@@ -34,11 +34,14 @@ Un XBlock funciona de tal forma que mantiene su estado en una capa de almacenami
 ### 2.1. Requisitos
 
 Es importante contar con una versión de Ubuntu o Debian, contar con **Python 3.5 o mayor** e instalar las siguientes librerías mediante el *terminal*:
-1. GNOME XML library - `sudo apt-get install libxml2-dev`
-2. XSLT 1.0 processing library - `sudo apt-get install libxslt-dev`
-3. Compression library 32-bit development - `sudo apt-get install lib32z1-dev`
-4. IJG JPEG library - `sudo apt-get install libjpeg62-dev`
-5. Virtualenv - `pip install virtualenv` 
+
+Librería|Comando de Instalación
+:---|:---
+GNOME XML library  | `sudo apt-get install libxml2-dev`
+XSLT 1.0 processing library | `sudo apt-get install libxslt-dev`
+Compression library 32-bit development | `sudo apt-get install lib32z1-dev`
+IJG JPEG library | `sudo apt-get install libjpeg62-dev`
+Virtualenv | `pip install virtualenv` 
 
 ### 2.2. Configuración del Entorno
 

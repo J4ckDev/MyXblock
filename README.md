@@ -304,7 +304,7 @@ def get_formdata(self, data, suffix=''):
         return{"resultado":formData}
 ```
 
-Está función e sla que procesa la solicitud por POST generada en el archivo Javascript, lo que hace es recibir los datos del formulario, procesarlos y retornarlos en formato JSON para mostrarlos como:
+Está función es la que procesa la solicitud por POST generada en el archivo Javascript, lo que hace es recibir los datos del formulario, procesarlos y retornarlos en formato JSON para mostrarlos como:
 
 ```
 Los datos del usuario son:

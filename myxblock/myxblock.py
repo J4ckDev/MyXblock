@@ -41,15 +41,12 @@ class MyXBlock(XBlock):
     # TO-DO: change this handler to perform your own actions.  You may need more
     # than one handler, or you may not need any handlers at all.
     @XBlock.json_handler
-    def increment_count(self, data, suffix=''):
-        """
-        An example handler, which increments the data.
-        """
-        # Just to show data coming in...
-        assert data['hello'] == 'world'
-
-        self.count += 1
-        return {"count": self.count}
+    def get_formdata(self, data, suffix=''):
+        formData = 'Los datos del usuario son:' + \
+            "<br> Nombres: " + data['name'] + \
+            "<br> Apellidos: " + data['lastname'] + \
+            "<br> Email: " + data['email'] 
+        return{"resultado":formData}
 
     # TO-DO: change this to create the scenarios you'd like to see in the
     # workbench while developing your XBlock.

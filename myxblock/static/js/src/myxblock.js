@@ -1,18 +1,26 @@
 /* Javascript for MyXBlock. */
 function MyXBlock(runtime, element) {
-
-    function updateCount(result) {
-        $('.count', element).text(result.count);
+    
+    function updateData(result) {
+        var sectionData = document.getElementById("data");
+        sectionData.innerHTML = result.resultado;
+	    document.getElementById("name").value = "";
+        document.getElementById("lastname").value = "";
+        document.getElementById("email").value = "";
     }
 
-    var handlerUrl = runtime.handlerUrl(element, 'increment_count');
+    var handlerUrl = runtime.handlerUrl(element, 'get_formdata');
 
-    $('p', element).click(function(eventObject) {
+    $('#Send', element).click(function (eventObject) {
+        var name = document.getElementById("name").value;
+        var lastname = document.getElementById("lastname").value;
+        var email = document.getElementById("email").value;
+
         $.ajax({
-            type: "POST",
-            url: handlerUrl,
-            data: JSON.stringify({"hello": "world"}),
-            success: updateCount
+	        type: "POST",
+            url: handlerUrl,            
+            data: JSON.stringify({ "name": name, "lastname": lastname, "email": email }),
+            success: updateData
         });
     });
 

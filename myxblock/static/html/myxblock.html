@@ -1,5 +1,29 @@
 <div class="myxblock_block">
-<p>MyXBlock: count is now
-    <span class='count'>{self.count}</span> (click me to increment).
-</p>
-</div>
+    <h3>Formulario de registro</h3>
+    <form id="form">
+      <div class="form-group">
+        <label class="form-label" for="name">
+          <i class="fa fa-id-card-o"></i> Nombres
+        </label>
+        <input id="name" name="name" type="text" placeholder="John" title="Sus Nombres" required />
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="lastname">
+          <i class="fa fa-id-card-o"></i> Apellidos
+        </label>
+        <input id="lastname" name="lastname" type="text" placeholder="Doe" title="Sus Apellidos" required />
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="email">
+          <i class="fa fa-envelope-o"></i> Correo
+        </label>
+        <input id="email" name="email" type="email" placeholder="email@email.com" title="Su Correo" required  />
+      </div>
+      <div class="form-button">
+        <button id="Send">
+          Enviar <i class="fa fa-send-o"></i>
+        </button>
+      </div>
+    </form>  
+  </div>
+  <p id="data"></p>

@@ -51,7 +51,10 @@ Con las librerias necesarias instaladas, es momento de configurar el entorno de 
 2. Ingresar a la carpeta creada y ejecutar el comando `virtualenv venv`.
 3. Iniciar el entorno virtual con el comando `source venv/bin/activate`. En mi caso luego de ejecutar el comando, en el terminal me apareció `(venv) jackdev@J4ckDev:~/midirectorio$`, el `(venv)` me indica que estoy trabajando en mi entorno virtual.
 4. Obtener el XBlock SDK mediante el comando `git clone https://github.com/edx/xblock-sdk`.
-5. por último, abrir la carpeta del proyecto clonado con `cd xblock-sdk` y ejecutar el comando `pip install -r requirements/base.txt` 
+5. Abrir la carpeta del proyecto clonado con `cd xblock-sdk` y ejecutar el comando `pip install -r requirements/base.txt` 
+6. Escribir el comando `mkdir ./var` y por último escribir el comando `make install`, este último comando se encargará de instalar todos los módulos, librerías y dependencias requeridas por el SDK. Este comando a su vez permite ver todos los XBlock instalados cuando se corra el servidor. 
+7. Realizar la migración de la base de datos con el comando `python manage.py migrate`.
+8. Por último, si desea ejecutar el servidor del SDK hacerlo con `python manage.py runserver`.
 
 ## 3. Construcción del XBlock   
 
@@ -66,10 +69,8 @@ Con el entorno virtual ejecutándose y el XBlock SDK configurado, se procede a c
   <img width="350px" height="200px" alt="Short Name y Class Name" src="https://i.pinimg.com/originals/48/8d/a1/488da1dfe778135bdcf44fe667bfa30c.png">
 </p>
 
-3. Instalar el bloque en el XBlock SDK mediante el comando `pip install -e myxblock`.
-4. Escribir el comando `mkdir ./xblock-sdk/var`, después  `cd xblock-sdk` y por último escribir el comando `make install`, este último comando se encargará de instalar todos los módulos, librerías y dependencias requeridas por el proyecto, finalmente realizará la migración de la base de datos. Este comando a su vez permite ver todos los XBlock instalados cuando se corra el servidor. 
-5. Escribir el comando `python manage.py migrate`.
-6. Por último, ejecutar el comando `python manage.py runserver` y en el navegador abrir la dirección `http://127.0.0.1:8000/`. Si todo está bien se debe ver nuestro XBlock creado, en mi caso aparece MyXBlock.
+3. Instalar el bloque creado, en el XBlock SDK, mediante el comando `pip install -e myxblock`.
+4. Por último, ejecutar el comando `python manage.py runserver` dentro de la carpeta del XBlock SDK y en el navegador abrir la dirección `http://127.0.0.1:8000/`. Si todo está bien se debe ver nuestro XBlock creado, en mi caso aparece MyXBlock.
 
 <p align="center">
   <img width="250px" height="250px" alt="Resultado Final" src="https://i.pinimg.com/originals/43/eb/52/43eb52bc444bd86ceeacd16f277a1a3c.png">

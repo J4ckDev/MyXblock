@@ -1,6 +1,16 @@
 <div class="myxblock_block">
+  <h2>Bienvenido a {{title}}</h2>
+  {% if flag %}
+    <h3>Sus datos registrados</h3>
+    <p id="data">
+      <strong>Nombres:</strong> {{name}} <br>
+      <strong>Apellidos:</strong> {{lastname}} <br>
+      <strong>Email:</strong> {{email}} <br><br>
+      {{total}} estudiantes han respondido a este XBlock. <br>
+    </p>  
+  {% else %}
     <h3>Formulario de registro</h3>
-    <form id="form">
+    <form id="form" method="POST">
       <div class="form-group">
         <label class="form-label" for="name">
           <i class="fa fa-id-card-o"></i> Nombres
@@ -24,6 +34,7 @@
           Enviar <i class="fa fa-send-o"></i>
         </button>
       </div>
-    </form>  
-  </div>
-  <p id="data"></p>
+    </form>
+  {% endif %}
+</div>
+  

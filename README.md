@@ -3,7 +3,7 @@
 El objetivo de la guía es orientar como crear XBlock, para la plataforma de OpenEDX, desarrollando a lo largo de esta guía el siguiente XBlock: 
 
 <p align="center">
-  <img width="200px" height="280px" alt="Ejemplo" src="https://i.pinimg.com/originals/ae/42/1e/ae421e54a839cff4f0ce6cc89940a7db.jpg">
+  <img  alt="Xblock antes de resolver" src="https://i.pinimg.com/originals/b7/16/d3/b716d31519649950a97ebbe442c49d26.png">
 </p>
 
 ## :clipboard: Contenido <!-- omit in toc -->
@@ -16,7 +16,7 @@ El objetivo de la guía es orientar como crear XBlock, para la plataforma de Ope
   - [2.2. Configuración del Entorno](#22-configuración-del-entorno)
 - [3. Construcción del XBlock](#3-construcción-del-xblock)
   - [3.1. Creación del prototipo base](#31-creación-del-prototipo-base)
-  - [3.2. Construir el XBlock](#32-construir-el-xblock)
+  - [3.2. Construcción del XBlock](#32-construcción-del-xblock)
   - [3.3 Probar el XBlock](#33-probar-el-xblock)
 
 ## 1. Introducción a los XBlock
@@ -76,248 +76,201 @@ Con el entorno virtual ejecutándose y el XBlock SDK configurado, se procede a c
   <img width="250px" height="250px" alt="Resultado Final" src="https://i.pinimg.com/originals/43/eb/52/43eb52bc444bd86ceeacd16f277a1a3c.png">
 </p>
 
-### 3.2. Construir el XBlock
+### 3.2. Construcción del XBlock
 Con lo desarrollado en la subsección anterior, creamos la estructura para el XBlock y en mi caso al llamarse myxblock, se generó el siguiente arbol de carpetas:
 
 <p align="center">
   <img alt="Resultado Final" src="https://i.pinimg.com/originals/30/1a/ef/301aef5bbac7e4e4e1a5b7b53e59a146.png">
 </p>
 
-La carpeta de interés será **static**, ya que dentro encontraremos las carpetas contenedoras para los archivos *HTML, CSS* y *Javascript*; para el caso del *script de Python* que controlará esos archivos, lo encontramos por fuera de la carpeta static por el nombre, en mi caso, de `myxblock.py`. 
+La carpeta de interés será **static**, ya que dentro encontraremos las carpetas contenedoras para los archivos *HTML, CSS* y *Javascript*; para el caso del *script de Python*, que controlará esos archivos, lo podemos encontrar por fuera de la carpeta static con el nombre de `myxblock.py`. 
 
-Ahora conociendo donde se encuentran los archivos, reemplazaremos con los siguientes fragmentos de código, el contenido del archivo que corresponda.
+Para construir el XBlock propuesto se realizaron las siguientes modificaciones:
 
-- Para el HTML, en mi caso `myxblock.html`:
-
-```html
-<div class="myxblock_block">
-  <h3>Formulario de registro</h3>
-  <form id="form">
-    <div class="form-group">
-      <label class="form-label" for="name">
-        <i class="fa fa-id-card-o"></i> Nombres
-      </label>
-      <input id="name" name="name" type="text" placeholder="John" title="Sus Nombres" required />
+1. **Código HTML:** La vista se hizo con el concepto de las plantillas de *Django*, el cuál hace uso de etiquetas especiales donde se pueden declarar variables y/o procesos como ciclos, condicionales, etc; la sintaxis de estas etiquetas es `{{ variable }}` y `{% proceso %}`. A continuación se puede observar el fragmento del código HTML donde hago uso de las etiquetas:
+   
+   ```html
+    <div class="myxblock_block">
+    <h2>Bienvenido a {{title}}</h2>
+    {% if flag %}
+    <h3>Sus datos registrados</h3>
+    <p id="data">
+      <strong>Nombres:</strong> {{name}} <br>
+      <strong>Apellidos:</strong> {{lastname}} <br>
+      <strong>Email:</strong> {{email}} <br><br>
+      {{total}} estudiantes han respondido a este XBlock. <br>
+    </p>  
+    {% else %}
+    <h3>Formulario de registro</h3>
+    <form id="form" method="POST">...</form>
+    {% endif %}
     </div>
-    <div class="form-group">
-      <label class="form-label" for="lastname">
-        <i class="fa fa-id-card-o"></i> Apellidos
-      </label>
-      <input id="lastname" name="lastname" type="text" placeholder="Doe" title="Sus Apellidos" required />
-    </div>
-    <div class="form-group">
-      <label class="form-label" for="email">
-        <i class="fa fa-envelope-o"></i> Correo
-      </label>
-      <input id="email" name="email" type="email" placeholder="email@email.com" title="Su Correo" required  />
-    </div>
-    <div class="form-button">
-      <button id="Send">
-        Enviar <i class="fa fa-send-o"></i>
-      </button>
-    </div>
-  </form>  
-</div>
-<p id="data"></p>
-```
-
-Como se observa en el código, la estructura se compone por un formulario y una etiqueta `<p id="data"></p>`, la estructura se define así para que en el formulario se llenen los datos y en la etiqueta se reciban los datos procesados por el script de Python y sean mostrados.
-
-- Para el CSS, en mi caso `myxblock.css`:
-
-```css
-/* CSS for MyXBlock */
-@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css");
-
-.myxblock_block {
-  display: flex;
-  margin: 0.5em;
-  text-align: center;
-  justify-content: center;
-  flex-wrap: wrap;
-  width: 100%;
-  border-radius: 15px;
-  border: 1px black solid;
-}
-
-.myxblock_block h3 {
-  text-align: center;
-  padding: 0.5em 0;
-  margin: 0%;
-  width: 100%;
-  border-radius: 15px 15px 0 0;
-  background-color: rgba(206, 206, 206, 0.5);
-}
-
-#form {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
-  box-sizing: border-box;
-  margin: 0.2em;
-  padding: 0.2em;
-  width: 100%;
-}
-
-.form-group {
-  margin: 0em;
-  padding: 0em 1em;
-  display: flex;
-  justify-content: center;
-  align-items: baseline;
-  text-align: right;
-  width: 30%;
-}
-
-.form-label {
-  margin: 0.5em;
-  padding: 0.5em;
-  width: 30%;
-}
-
-#name,
-#lastname,
-#email {
-  margin: 0.2em;
-  outline-color: #065683;
-  width: 60%;
-}
-
-.form-button {
-  width: 100%;
-  display: flex;
-  padding: 0.5em;
-  justify-content: center;
-}
-
-#Send {
-  background-color: #0075b4;
-  border: 2px solid #0075b4;
-  border-radius: 5px;
-  font-size: 1em;
-  color: white;
-  margin: 0px;
-  padding: 5px 30px;
-  cursor: pointer;
-  transition: all 0.4s linear;
-}
-
-#Send:hover {
-  background-color: #065683;
-  border-color: #065683;
-}
-
-@media only screen and (max-width: 1370px) {
-  .form-group {
-    width: 40%;
-  }
-}
-
-@media only screen and (max-width: 1060px) {
-  #name,
-  #lastname,
-  #email {
-    width: 50%;
-  }
-}
-@media only screen and (max-width: 910px) {
-  .form-group {
-    text-align: left;
-    width: 60%;
-  }
-  #name,
-  #lastname,
-  #email {
-    width: 70%;
-  }
-}
-
-@media only screen and (max-width: 740px) {
-  .form-group {
-    width: 100%;
-  }
-}
-
-@media only screen and (max-width: 520px) {
-  .form-group {
-    flex-wrap: wrap;
-  }
-  .form-label {
-    padding-left: 0em;
-    margin-left: 0.2em;
-    width: 100%;
-  }
-  #name,
-  #lastname,
-  #email {
-    width: 100%;
-  }
-}
-
-```
-
-- Para el JS, en mi caso `myxblock.js`:
-
-```javascript
-/* Javascript for MyXBlock. */
-function MyXBlock(runtime, element) {
+   ```
+    Como se puede observar la vista del XBlock está dividida en 2 partes por un condicional `{% if flag %}`, esto es para mostrar el formulario si no ha sido respondido por el usuario y si fue respondido, mostrará la vista donde muestra los datos almacenados `{{ name }}, {{ lastname }}, {{ email }}` y el `{{ total }}` de estudiantes o usuarios que han llenado el formulario.  El código completo de la vista se encuentra [aquí](https://github.com/J4ckDev/MyXblock/blob/main/myxblock/static/html/myxblock.html).
+2. **Código CSS:** Los estilos implementados solo fueron para mejorar la presentación del XBlock y para que fuera responsive, como es un código largo y no es muy relevante para la funcionalidad dejo el enlace directo [aquí](https://github.com/J4ckDev/MyXblock/blob/main/myxblock/static/css/myxblock.css).
+3. **Código Javascript:** Será el encargado de procesar la información ingresada en el formulario, usar *AJAX* para construir una consulta con método **POST** para enviar los datos al servidor y si recibe una respuesta positiva, actualiza la página para mostrar la información registrada. El código es el siguiente:
+   ```javascript
+   function MyXBlock(runtime, element) {
     
-    function updateData(result) {
-        var sectionData = document.getElementById("data");
-        sectionData.innerHTML = result.resultado;
-	    document.getElementById("name").value = "";
-        document.getElementById("lastname").value = "";
-        document.getElementById("email").value = "";
-    }
-
     var handlerUrl = runtime.handlerUrl(element, 'get_formdata');
 
-    $('#Send', element).click(function (eventObject) {
+        $('#Send', element).click(function (eventObject) {
         var name = document.getElementById("name").value;
         var lastname = document.getElementById("lastname").value;
         var email = document.getElementById("email").value;
-
         $.ajax({
-	        type: "POST",
-            url: handlerUrl,            
+            type: "POST",
+            url: handlerUrl,                     
             data: JSON.stringify({ "name": name, "lastname": lastname, "email": email }),
-            success: updateData
+            success: location.reload
         });
     });
 
     $(function ($) {
         /* Here's where you'd do things on page load. */
     });
-}
-```
+   }
+   ```
+4. **Código Python:** Es el encargado de procesar todos los procesos del XBlock como renderizar las vistas, procesar la información y almacenarla. Para construir la lógica del Xblock es necesario conocer los siguientes conceptos:
+   
+   - **Campos o Fields:** Son los tipos de las variables que representan la información que almacena el XBlock y dependiendo de su *Alcance o Scope*, mostrará la información para uno o todos los usuarios. A continuación muestro los *Scope* y los *Fields* usados:  
 
-Este código Javascript hace uso de AJAX para generar la consulta por POST al servidor, cuando en el formulario la persona de click en el botón de enviar, y si se procesan correctamente los datos, los muestra en la etiqueta `<p id="data"></p>`
+      |Scope|Descripción|Sintaxis|
+      |:----|:----------|:-------|
+      |Estado de usuario|Este tipo de scope permite guardar la información de un estudiante en una única instancia del XBlock de un curso. Por ejemplo, un field que guarde las respuestas de un examen. |`Scope.user_state`|
+      |Contenido|Este tipo de Scope es usado para guardar información que será mostrada por igual a todos los estudiantes y no necesita modificarse. Por ejemplo, un field que contenga el título del XBlock.|`Scope.content`|
+      |Resumen de estados de usuario|Este Scope sirve para guardar y mostrar información general de todos los estudiantes. Por ejemplo, ver el número de estudiantes que hayan participado en una encuesta.|`Scope.user_state_summary`|
 
-- Para el script de Python, en mi caso `myxblock.py`, solo hay que reemplazar la función que está debajo de `@XBlock.json_handler` por la siguiente:
+      Los otros valores de *Scope* disponibles se pueden encontrar en la <a href="https://edx.readthedocs.io/projects/xblock-tutorial/en/latest/concepts/fields.html" target="_blank" rel="noopener noreferrer">documentación oficial</a> y en uno de los <a href="https://github.com/edx/xblock-sdk/blob/master/sample_xblocks/basic/content.py" target="_blank" rel="noopener noreferrer">XBlock ejemplo</a> del SDK.
 
-```python
-def get_formdata(self, data, suffix=''):
-        formData = 'Los datos del usuario son:' + \
-            "<br> Nombres: " + data['name'] + \
-            "<br> Apellidos: " + data['lastname'] + \
-            "<br> Email: " + data['email'] 
-        return{"resultado":formData}
-```
+      |Field|Descripción|Sintaxis básica|
+      |:----|:----------|:--------------|
+      |String|Es una clase que representa una cadena, este puede ser `None` o cualquier texto.|`variable = String(default="", scope=Scope.user_state, help="String var")`|
+      |Integer|Es una clase que representa un número entero, este puede ser `None`, un número entero de Python o un valor que se analizará como entero, es decir, algo para lo que `int(value)` no arroja un error.| `variable = Integer(default=0, scope=Scope.user_state, help="Integer var")`|
+      |Boolean|Es una clase que representa un booleano, este puede ser un booleano de Python, una cadena o cualquier valor que se pueda convertir a booleano en el método `from_json`.|`variable = Boolean(default=False, scope=Scope.user_state, help="Boolean var")`|
+      Como se pudo observar el valor *scope* y *help* están presentes en todos los tipos de Fields, esto es porque se debe definir a que usuario o usuarios se debe presentar la información almacenada y especificar los datos que almacena la variable respectivamente.  
+      Se puede encontrar más información sobre los *Fields* <a href="https://edx.readthedocs.io/projects/xblock/en/latest/fields.html" target="_blank" rel="noopener noreferrer">aquí</a>.
+    - **Renderizado de vistas:** Esto consiste en procesar las etiquetas especiales de la vista HTML, como los procesos contenidos dentro `{%%}` y/o reemplazar el valor de las variables contenidas en `{{}}`. Para lograr esto se hace uso de las siguientes librerías:
 
-Está función es la que procesa la solicitud por POST generada en el archivo Javascript, lo que hace es recibir los datos del formulario, procesarlos y retornarlos en formato JSON para mostrarlos como:
+      | Librería | Descripción |
+      | :------ | :------ |
+      | Template | En Django esta clase es la encargada de compilar el código plantilla que reciba, normalmente son fragmentos HTML que incluyen propiedades que deben ser procesadas y compiladas. Un ejemplo de los fragmentos que compila es el siguiente `<p>Hola, me llamo {{nombre_usuario}}</p>`.  |
+      | Context | Esta clase de Django, es la encargada de procesar las plantillas compiladas por la clase Template y mapear la información contenida en un diccionario, luego usando `Template.render(context)` se renderiza todo para generar una vista estática. Siguiendo el ejemplo anterior sería algo así:![Ejemplo de código](https://raw.githubusercontent.com/J4ckDev/XBlockPrueba/main/images/example.png)|      
+    Ahora con todo más claro el código generado para el Xblock fue el siguiente:
 
-```
-Los datos del usuario son:
-Nombres: NombresDelFormulario
-Apellidos: ApellidosDelFormulario
-Email: CorreoDelFormulario
-```
+    - **Librerías importadas**
+      ```python
+      import pkg_resources
+      from xblock.fragment import Fragment
+      from django.template import Context, Template
+      from xblock.core import XBlock
+      from xblock.fields import Integer, Scope, String, Boolean
+      ```
+      Las librerías `pkg_resources`, `XBlock`, `Integer` y `Scope`, son adicionadas automáticamente al momento de crear el [prototipo base](#31-creación-del-prototipo-base).
 
+    - **Fields Definidos**
+      Los campos creados fueron para guardar la información del usuario, el título del XBlock y el total de respuestas del formulario.
+      ```python
+      username = String(
+        default="", scope=Scope.user_state,
+        help="Nombre de usuario",
+      )
+
+      lastname = String(
+          default="", scope=Scope.user_state,
+          help="Apellido del usuario",
+      )
+
+      email = String(
+          default="", scope=Scope.user_state,
+          help="Correo del usuario",
+      )
+
+      title = String(
+          default="MyXBlock", scope=Scope.content,
+          help="Título del XBlock"
+      )
+
+      totalAnswers = Integer(
+          default=0, scope=Scope.user_state_summary,
+          help="Total de respuestas"
+      )
+
+      flag = Boolean(
+          default=False, scope=Scope.user_state,
+          help="Bandera para saber si fue resuelto el formulario"
+      )
+      ```
+
+    - **Renderizado de las vistas**      
+      ```python
+        def load_resource(self, resource_path):
+        """
+        Gets the content of a resource
+        """
+        resource_content = pkg_resources.resource_string(__name__, resource_path)
+        return resource_content.decode("utf8")
+      ```
+      Esta función será la encargada de obtener el archivo que contiene la vista del XBlock o el fragmento de código HTML para compilarlo. 
+      ```python
+        def render_template(self, template_path, context={}):
+        """
+        Evaluate a template by resource path, applying the provided context
+        """
+        template_str = self.load_resource(template_path)
+        return Template(template_str).render(Context(context))
+      ```
+      Esta función se encargará de hacer uso de *load_resource* para obtener la plantilla compilada y con el diccionario de datos que reciba, realizará la renderización de la vista o fragmento HTML a mostrar.
+
+    - **Student View**
+      ```python
+      def student_view(self, context=None):
+        """
+        The primary view of the MyXBlock, shown to students
+        when viewing courses.
+        """
+        context = {
+            'flag': self.flag,
+            'name': self.username,
+            'lastname': self.lastname,
+            'email': self.email,
+            'title': self.title,
+            'total': self.totalAnswers,
+        }
+        
+        html = self.render_template("static/html/myxblock.html", context)
+        frag = Fragment(html.format(self=self))
+        frag.add_css(self.resource_string("static/css/myxblock.css"))
+        frag.add_javascript(self.resource_string("static/js/src/myxblock.js"))
+        frag.initialize_js('MyXBlock')
+        return frag
+      ```
+      El diccionario de datos que se le pasa a `render_template`, es con todos los campos o fields definidos anteriormente y después, haciendo uso de frag, se adiciona el css y el javascript para retornar la vista construida en su totalidad.
+    - **JSON Handler o Controlador** 
+      ```python
+      @XBlock.json_handler
+      def get_formdata(self, data, suffix=''):
+        self.username = data['name']
+        self.lastname = data['lastname']
+        self.email = data['email']
+        self.totalAnswers += 1
+        self.flag = True
+        self.student_view()  
+      ```
+      Esta función es la encargada de procesar la solicitud enviada por el código Javascript, definido anteriormente, para guardar la información en los fields definidos anteriormente. Al final de la función se vuelve a llamar a `student_view` para renderizar de nuevo la vista y mostrar los valores registrados cuando el código Javascript actualice la página mediante `location.reload`. 
 ### 3.3 Probar el XBlock
 
-Con todo construido, es momento de abrir en el navegador la dirección `http://127.0.0.1:8000/`, seleccionar nuestro XBlock y ya deberíamos tener nuestro formulario listo para funcionar. En mi caso se obtuvo el siguiente resultado:
+Con todo construido, es momento de abrir en el navegador la dirección `http://127.0.0.1:8000/`, seleccionar nuestro XBlock y ya deberíamos tener nuestro formulario listo para funcionar. Al momento de llenar la información obtuve el siguiente resultado:
 
 <p align="center">
-  <img alt="Resultado con el formulario" src="https://i.pinimg.com/originals/67/2c/3b/672c3b83e50ec532b187eed3a47e539c.png">
+  <img alt="Resultado con el formulario" src="https://i.pinimg.com/originals/bc/23/a6/bc23a6247b26761ef71b99fd3956011b.png">
 </p>
+
+Es posible simular otros usuarios escribiendo al final del enlace de cualquier XBlock `?student=valor`, donde valor puede ser un número o un texto. En mi caso simulé un estudiante con ID 17, por lo que el enlace en el navegador quedó como `http://127.0.0.1:8000/scenario/myxblock.0/?student=17`, luego de rellenar la información obtuve lo siguiente:
+
+<p align="center">
+  <img alt="Resultado con el formulario" src="https://i.pinimg.com/originals/8d/41/c9/8d41c9c52f6e6e8f96967cdbdd097e6e.png">
+</p>
+
+Como se puede observar, aumentó el valor de los estudiantes que han respondido el formulario.  
+Sí deseas aprender como instalar un XBlock en la plataforma de OpenEDX y conocer como obtener datos de entorno, te invito a que visites [mi otro repositorio](https://github.com/J4ckDev/XBlockPrueba).

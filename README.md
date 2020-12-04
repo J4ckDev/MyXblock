@@ -148,6 +148,7 @@ Para construir el XBlock propuesto se realizaron las siguientes modificaciones:
       |String|Es una clase que representa una cadena, este puede ser `None` o cualquier texto.|`variable = String(default="", scope=Scope.user_state, help="String var")`|
       |Integer|Es una clase que representa un número entero, este puede ser `None`, un número entero de Python o un valor que se analizará como entero, es decir, algo para lo que `int(value)` no arroja un error.| `variable = Integer(default=0, scope=Scope.user_state, help="Integer var")`|
       |Boolean|Es una clase que representa un booleano, este puede ser un booleano de Python, una cadena o cualquier valor que se pueda convertir a booleano en el método `from_json`.|`variable = Boolean(default=False, scope=Scope.user_state, help="Boolean var")`|
+      
       Como se pudo observar el valor *scope* y *help* están presentes en todos los tipos de Fields, esto es porque se debe definir a que usuario o usuarios se debe presentar la información almacenada y especificar los datos que almacena la variable respectivamente.  
       Se puede encontrar más información sobre los *Fields* <a href="https://edx.readthedocs.io/projects/xblock/en/latest/fields.html" target="_blank" rel="noopener noreferrer">aquí</a>.
     - **Renderizado de vistas:** Esto consiste en procesar las etiquetas especiales de la vista HTML, como los procesos contenidos dentro `{%%}` y/o reemplazar el valor de las variables contenidas en `{{}}`. Para lograr esto se hace uso de las siguientes librerías:

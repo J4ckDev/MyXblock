@@ -52,7 +52,7 @@ Con las librerias necesarias instaladas, es momento de configurar el entorno de 
 3. Iniciar el entorno virtual con el comando `source venv/bin/activate`. En mi caso luego de ejecutar el comando, en el terminal me apareció `(venv) jackdev@J4ckDev:~/midirectorio$`, el `(venv)` me indica que estoy trabajando en mi entorno virtual.
 4. Obtener el XBlock SDK mediante el comando `git clone https://github.com/edx/xblock-sdk`.
 5. Abrir la carpeta del proyecto clonado con `cd xblock-sdk` y ejecutar el comando `pip install -r requirements/base.txt` 
-6. Escribir el comando `mkdir ./var` y por último escribir el comando `make install`, este último comando se encargará de instalar todos los módulos, librerías y dependencias requeridas por el SDK. Este comando a su vez permite ver todos los XBlock instalados cuando se corra el servidor. 
+6. Escribir el comando `mkdir ./var` y el comando `make install`, este último comando se encargará de instalar todos los módulos, librerías y dependencias requeridas por el SDK. Este comando a su vez permite ver todos los XBlock instalados cuando se corra el servidor. 
 7. Realizar la migración de la base de datos con el comando `python manage.py migrate`.
 8. Por último, si desea ejecutar el servidor del SDK hacerlo con `python manage.py runserver`.
 

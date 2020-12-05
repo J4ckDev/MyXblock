@@ -1,6 +1,6 @@
 # :scroll: MyXBlock <!-- omit in toc -->
 
-El objetivo de la guía es orientar como crear XBlock, para la plataforma de OpenEDX, desarrollando a lo largo de esta guía el siguiente XBlock: 
+El objetivo de la guía es orientar como crear un XBlock para la plataforma de OpenEDX, desarrollando a lo largo de esta guía el siguiente XBlock: 
 
 <p align="center">
   <img  alt="Xblock antes de resolver" src="https://i.pinimg.com/originals/b7/16/d3/b716d31519649950a97ebbe442c49d26.png">
@@ -47,7 +47,7 @@ Virtualenv | `pip install virtualenv`
 
 Con las librerias necesarias instaladas, es momento de configurar el entorno de trabajo de la siguiente forma:
 
-1. Crear una carpeta con el nombre que deseen, en mi caso la llamé *mi directorio* con el comando `mkdir midirectorio`.
+1. Crear una carpeta con el nombre que deseen, en mi caso la llamé *midirectorio* con el comando `mkdir midirectorio`.
 2. Ingresar a la carpeta creada y ejecutar el comando `virtualenv venv`.
 3. Iniciar el entorno virtual con el comando `source venv/bin/activate`. En mi caso luego de ejecutar el comando, en el terminal me apareció `(venv) jackdev@J4ckDev:~/midirectorio$`, el `(venv)` me indica que estoy trabajando en mi entorno virtual.
 4. Obtener el XBlock SDK mediante el comando `git clone https://github.com/edx/xblock-sdk`.
@@ -107,8 +107,8 @@ Para construir el XBlock propuesto se realizaron las siguientes modificaciones:
     </div>
    ```
     Como se puede observar la vista del XBlock está dividida en 2 partes por un condicional `{% if flag %}`, esto es para mostrar el formulario si no ha sido respondido por el usuario y si fue respondido, mostrará la vista donde muestra los datos almacenados `{{ name }}, {{ lastname }}, {{ email }}` y el `{{ total }}` de estudiantes o usuarios que han llenado el formulario.  El código completo de la vista se encuentra [aquí](https://github.com/J4ckDev/MyXblock/blob/main/myxblock/static/html/myxblock.html).
-2. **Código CSS:** Los estilos implementados solo fueron para mejorar la presentación del XBlock y para que fuera responsive, como es un código largo y no es muy relevante para la funcionalidad dejo el enlace directo [aquí](https://github.com/J4ckDev/MyXblock/blob/main/myxblock/static/css/myxblock.css).
-3. **Código Javascript:** Será el encargado de procesar la información ingresada en el formulario, usar *AJAX* para construir una consulta con método **POST** para enviar los datos al servidor y si recibe una respuesta positiva, actualiza la página para mostrar la información registrada. El código es el siguiente:
+2. **Código CSS:** Los estilos implementados solo fueron para mejorar la presentación del XBlock y para que fuera responsive. Como es un código largo e irrelevante para la funcionalidad, dejo el enlace para ver el código [aquí](https://github.com/J4ckDev/MyXblock/blob/main/myxblock/static/css/myxblock.css).
+3. **Código Javascript:** Será el encargado de procesar la información ingresada en el formulario, hará uso de *AJAX* para construir una consulta con método **POST**, a fin de enviar los datos al servidor y si recibe una respuesta positiva, actualizar la página para mostrar la información registrada. El código es el siguiente:
    ```javascript
    function MyXBlock(runtime, element) {
     
@@ -150,7 +150,9 @@ Para construir el XBlock propuesto se realizaron las siguientes modificaciones:
       |Boolean|Es una clase que representa un booleano, este puede ser un booleano de Python, una cadena o cualquier valor que se pueda convertir a booleano en el método `from_json`.|`variable = Boolean(default=False, scope=Scope.user_state, help="Boolean var")`|
       
       Como se pudo observar el valor *scope* y *help* están presentes en todos los tipos de Fields, esto es porque se debe definir a que usuario o usuarios se debe presentar la información almacenada y especificar los datos que almacena la variable respectivamente.  
+
       Se puede encontrar más información sobre los *Fields* <a href="https://edx.readthedocs.io/projects/xblock/en/latest/fields.html" target="_blank" rel="noopener noreferrer">aquí</a>.
+      
     - **Renderizado de vistas:** Esto consiste en procesar las etiquetas especiales de la vista HTML, como los procesos contenidos dentro `{%%}` y/o reemplazar el valor de las variables contenidas en `{{}}`. Para lograr esto se hace uso de las siguientes librerías:
 
       | Librería | Descripción |

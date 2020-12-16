@@ -41,7 +41,7 @@ GNOME XML library  | `sudo apt-get install libxml2-dev`
 XSLT 1.0 processing library | `sudo apt-get install libxslt-dev`
 Compression library 32-bit development | `sudo apt-get install lib32z1-dev`
 IJG JPEG library | `sudo apt-get install libjpeg62-dev`
-Virtualenv | `pip install virtualenv` 
+Virtualenv | `pip3 install virtualenv` 
 
 ### 2.2. Configuración del Entorno
 
